@@ -22,7 +22,10 @@
     <header class="hero">
       <nav class="nav">
         <a class="brand" href="#topo">Missão Praia</a>
-        <a class="nav-link" href="#casas">Ver casas</a>
+        <div class="nav-links">
+          <a class="nav-link" href="#casas">Casas</a>
+          <a class="nav-link" href="#ranking">Meu ranking</a>
+        </div>
       </nav>
 
       <div class="hero-copy" id="topo">
@@ -33,6 +36,7 @@
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#casas">Ver lista</a>
+          <a class="btn btn-ghost" href="#ranking">Montar ranking</a>
         </div>
       </div>
 
@@ -47,13 +51,52 @@
       <section class="section" id="casas">
         <div class="section-head">
           <h2>Casas na lista</h2>
-          <p>Separadas por cidade. Detalhes principais já estão aqui.</p>
+          <p>
+            Separadas por cidade. Monte seu ranking e depois copie a mensagem pro
+            grupo.
+          </p>
         </div>
         <nav id="city-nav" class="city-nav" aria-label="Cidades"></nav>
         <div id="listings" class="listings" aria-live="polite"></div>
         <p id="empty" class="empty hidden">
           Ainda não tem nenhuma casa na lista.
         </p>
+      </section>
+
+      <section class="section ranking-section" id="ranking">
+        <div class="section-head">
+          <h2>Meu ranking</h2>
+          <p>
+            A ordem fica salva neste aparelho. No fim, copie e mande no WhatsApp.
+          </p>
+        </div>
+
+        <label class="rank-name-field">
+          <span>Seu nome</span>
+          <input
+            id="rank-name"
+            type="text"
+            maxlength="40"
+            placeholder="Como você aparece no grupo"
+            autocomplete="name"
+          />
+        </label>
+
+        <ol id="rank-list" class="rank-list"></ol>
+        <p id="rank-empty" class="rank-empty">
+          Nenhuma casa no ranking ainda. Toque em “Adicionar ao ranking” nas
+          casas acima.
+        </p>
+
+        <div class="rank-actions">
+          <button type="button" class="btn btn-primary" id="copy-rank">
+            Copiar mensagem pro WhatsApp
+          </button>
+          <button type="button" class="btn btn-ghost" id="clear-rank">
+            Limpar ranking
+          </button>
+        </div>
+        <p id="copy-feedback" class="copy-feedback" hidden></p>
       </section>
     </main>
 
