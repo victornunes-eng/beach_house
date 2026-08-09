@@ -226,7 +226,61 @@ body {
   color: var(--ink-soft);
 }
 
+.city-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  margin: 0 0 2.25rem;
+}
+
+.city-nav a {
+  color: var(--sea-deep);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.city-nav a span {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.city-nav a:hover {
+  border-bottom-color: rgba(14, 74, 99, 0.35);
+}
+
 .listings {
+  display: grid;
+  gap: 3.5rem;
+}
+
+.city-group {
+  scroll-margin-top: 1.25rem;
+}
+
+.city-head {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.city-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  letter-spacing: -0.03em;
+  color: var(--sea-deep);
+}
+
+.city-head p {
+  margin: 0.25rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.city-listings {
   display: grid;
   gap: 2.75rem;
 }

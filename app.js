@@ -1,6 +1,7 @@
 (function () {
   const root = document.getElementById("listings");
   const empty = document.getElementById("empty");
+  const cityNav = document.getElementById("city-nav");
   const listings = Array.isArray(window.LISTINGS) ? window.LISTINGS : [];
 
   const statusLabel = {
@@ -14,14 +15,63 @@
     return;
   }
 
-  const order = { favorita: 0, avaliando: 1, descartada: 2 };
-  const sorted = [...listings].sort(
-    (a, b) => (order[a.status] ?? 9) - (order[b.status] ?? 9)
-  );
+  const statusOrder = { favorita: 0, avaliando: 1, descartada: 2 };
+  const byCity = new Map();
+
+  listings.forEach((item) => {
+    const city = item.cidade || "Outras";
+    if (!byCity.has(city)) byCity.set(city, []);
+    byCity.get(city).push(item);
+  });
+
+  const cities = [...byCity.keys()].sort((a, b) => a.localeCompare(b, "pt-BR"));
+
+  if (cityNav) {
+    cityNav.innerHTML = cities
+      .map((city) => {
+        const count = byCity.get(city).length;
+        return `<a href="#cidade-${slugify(city)}">${escapeHtml(
+          city
+        )} <span>${count}</span></a>`;
+      })
+      .join("");
+  }
 
   const frag = document.createDocumentFragment();
+  let index = 0;
 
-  sorted.forEach((item, index) => {
+  cities.forEach((city) => {
+    const section = document.createElement("section");
+    section.className = "city-group";
+    section.id = `cidade-${slugify(city)}`;
+
+    const items = [...byCity.get(city)].sort(
+      (a, b) => (statusOrder[a.status] ?? 9) - (statusOrder[b.status] ?? 9)
+    );
+
+    const head = document.createElement("div");
+    head.className = "city-head";
+    head.innerHTML = `
+      <h3>${escapeHtml(city)}</h3>
+      <p>${items.length} ${items.length === 1 ? "casa" : "casas"}</p>
+    `;
+    section.appendChild(head);
+
+    const list = document.createElement("div");
+    list.className = "city-listings";
+
+    items.forEach((item) => {
+      list.appendChild(renderListing(item, index));
+      index += 1;
+    });
+
+    section.appendChild(list);
+    frag.appendChild(section);
+  });
+
+  root.appendChild(frag);
+
+  function renderListing(item, index) {
     const article = document.createElement("article");
     article.className = `listing listing--${item.status || "avaliando"}`;
     article.style.setProperty("--i", String(index));
@@ -33,14 +83,15 @@
       item.banheiros ? `${item.banheiros} banheiros` : null,
     ].filter(Boolean);
 
-    const rating =
-      item.nota != null
-        ? `★ ${formatNum(item.nota)}${
-            item.avaliacoes ? ` · ${item.avaliacoes} avaliações` : ""
-          }`
-        : null;
+    let rating = null;
+    if (item.nota != null && item.avaliacoes) {
+      rating = `★ ${formatNum(item.nota)} · ${item.avaliacoes} avaliações`;
+    } else if (!item.avaliacoes) {
+      rating = "Ainda sem avaliações";
+    }
 
     const thumbs = (item.fotos || []).slice(0, 4);
+    const place = [item.local, item.cidade].filter(Boolean).join(", ");
 
     article.innerHTML = `
       ${
@@ -61,7 +112,7 @@
           <h3>${escapeHtml(item.nome || "Sem nome")}</h3>
           <p class="meta">
             ${escapeHtml(
-              [item.tipo, item.local, rating].filter(Boolean).join(" · ")
+              [item.tipo, place, rating].filter(Boolean).join(" · ")
             )}
           </p>
         </div>
@@ -195,10 +246,17 @@
       </div>
     `;
 
-    frag.appendChild(article);
-  });
+    return article;
+  }
 
-  root.appendChild(frag);
+  function slugify(value) {
+    return String(value)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
 
   function ratingLabel(key) {
     return (
