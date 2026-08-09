@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Missão Praia — casas que encontramos</title>
+    <meta
+      name="description"
+      content="Lista compartilhada das casas na praia que estamos avaliando com os amigos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true"></div>
+
+    <header class="hero">
+      <nav class="nav">
+        <a class="brand" href="#topo">Missão Praia</a>
+        <a class="nav-link" href="#casas">Ver casas</a>
+      </nav>
+
+      <div class="hero-copy" id="topo">
+        <p class="hero-kicker">Com os amigos</p>
+        <h1 class="hero-brand">Missão Praia</h1>
+        <p class="hero-lead">
+          Um lugar só para juntar as hospedagens que encontramos — e decidir juntos.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#casas">Ver lista</a>
+          <a class="btn btn-ghost" href="#como-adicionar">Como adicionar</a>
+        </div>
+      </div>
+
+      <div class="hero-horizon" aria-hidden="true">
+        <div class="wave wave-a"></div>
+        <div class="wave wave-b"></div>
+        <div class="sand"></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="casas">
+        <div class="section-head">
+          <h2>Casas na lista</h2>
+          <p>Toque no link para abrir o anúncio original.</p>
+        </div>
+        <div id="listings" class="listings" aria-live="polite"></div>
+        <p id="empty" class="empty hidden">
+          Ainda não tem nenhuma casa. Edite o arquivo <code>listings.js</code> e
+          publique de novo.
+        </p>
+      </section>
+
+      <section class="section section-soft" id="como-adicionar">
+        <div class="section-head">
+          <h2>Como adicionar uma casa</h2>
+          <p>Abra <code>listings.js</code>, copie um bloco e preencha os campos.</p>
+        </div>
+        <pre class="snippet" tabindex="0"><code>{
+  id: "casa-3",
+  nome: "Casa com deck",
+  local: "Ubatuba, SP",
+  preco: "R$ 2.400 / fim de semana",
+  pessoas: 8,
+  link: "https://...",
+  notas: "Perto da praia, aceita pets",
+  status: "avaliando" // avaliando | favorita | descartada
+}</code></pre>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Missão Praia — lista compartilhada da galera.</p>
+    </footer>
+
+    <script src="listings.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
