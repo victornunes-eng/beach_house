@@ -168,6 +168,10 @@
             : ""
         }
 
+        <div class="rank-controls rank-controls-top" data-listing-controls="${escapeAttr(
+          String(item.id)
+        )}"></div>
+
         ${
           item.periodo || item.preco || item.hospedesBusca
             ? `<div class="trip">
@@ -281,18 +285,13 @@
             : ""
         }
 
-        <div class="listing-footer">
-          ${
-            item.link
-              ? `<a class="listing-link" href="${escapeAttr(
-                  item.link
-                )}" target="_blank" rel="noopener noreferrer">Abrir no Airbnb</a>`
-              : "<span></span>"
-          }
-          <div class="rank-controls" data-listing-controls="${escapeAttr(
-            String(item.id)
-          )}"></div>
-        </div>
+        ${
+          item.link
+            ? `<a class="listing-link" href="${escapeAttr(
+                item.link
+              )}" target="_blank" rel="noopener noreferrer">Abrir no Airbnb</a>`
+            : ""
+        }
       </div>
     `;
 
@@ -387,9 +386,12 @@
   function syncListingControls() {
     listings.forEach((item) => {
       const id = String(item.id);
-      const el = document.querySelector(
-        `[data-listing-controls="${cssEscape(id)}"]`
+      const article = document.querySelector(
+        `article[data-listing-id="${cssEscape(id)}"]`
       );
+      const el =
+        article?.querySelector("[data-listing-controls]") ||
+        document.querySelector(`[data-listing-controls="${cssEscape(id)}"]`);
       if (!el) return;
 
       const position = state.order.indexOf(id);
@@ -397,7 +399,7 @@
         el.innerHTML = `
           <button type="button" class="btn-rank" data-rank-action="add" data-id="${escapeAttr(
             id
-          )}">Adicionar ao ranking</button>
+          )}">+ Adicionar ao meu ranking</button>
         `;
         return;
       }
